@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
+
 
 class PostController extends Controller
 {
@@ -14,10 +16,11 @@ class PostController extends Controller
 
     public function store(Request $request){
         //create an instance of the Post model and save the data
+        $user_id = Auth::user()->id;
         $post = new Post();
         $post->title = $request->title;
         $post->body = $request->body;
-        $post->user_id = rand(1, 5);
+        $post->user_id = $user_id;
         $post->save();
         return redirect('/posts');
     }
